@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -14,22 +14,23 @@ class AuthController extends Controller
     {
         $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|unique:users',
-            'password' => 'required|string|min:6',
+            'email'    => 'required|email|unique:users',
+            'password' => 'required|min:6',
         ]);
 
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
         ]);
 
-        $token = $user->createToken('api_token')->plainTextToken;
+        $token = $user->createToken('nawelni_token')->plainTextToken;
 
         return response()->json([
-            'user'  => $user,
-            'token' => $token,
-        ], 201);
+            'success' => true,
+            'user'    => $user,
+            'token'   => $token,
+        ]);
     }
 
     public function login(Request $request)
@@ -42,16 +43,22 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['بيانات الدخول غير صحيحة'],
-            ]);
+            return response()->json(['success' => false, 'message' => 'بيانات الدخول غير صحيحة'], 401);
         }
 
-        $token = $user->createToken('api_token')->plainTextToken;
+        $token = $user->createToken('nawelni_token')->plainTextToken;
 
         return response()->json([
-            'user'  => $user,
-            'token' => $token,
+            'success' => true,
+            'user'    => $user,
+            'token'   => $token,
+        ]);
+    }
+
+    public function profile(Request $request)
+    {
+        return response()->json([
+            'user' => $request->user()
         ]);
     }
 
