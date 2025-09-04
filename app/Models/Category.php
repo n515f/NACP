@@ -4,14 +4,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Category extends Model
+class Categorie extends Model
 {
-    use HasFactory;
+    protected $fillable = ['name', 'slug', 'icon_path', 'image_path', 'is_active', 'icon'];
 
-    protected $fillable = ['name', 'icon'];
-
-    public function vendors()
-    {
-        return $this->belongsToMany(Vendor::class, 'vendor_categories');
+    public function products() {
+        return $this->hasMany(Product::class, 'category_id');
     }
 }

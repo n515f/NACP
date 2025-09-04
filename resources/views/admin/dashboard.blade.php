@@ -1,10 +1,10 @@
-@extends('layouts.admin')
+@extends('admin.layouts.master')
 
 @section('title', 'لوحة التحكم')
 
 @section('content')
   <div class="container">
-    <h1 class="mb-3">مرحباً بك في لوحة التحكم</h1>
+    <h2>مرحبًا بك في لوحة التحكم</h2>
     <p>يمكنك إدارة النظام من هنا.</p>
   </div>
 @endsection

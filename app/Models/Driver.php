@@ -9,9 +9,9 @@ class Driver extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phone', 'status'];
+  protected $fillable = ['name', 'phone', 'vehicle_type', 'license_number', 'lat', 'lng', 'status'];
 
-    public function orders() { return $this->hasMany(Order::class); }
-
-    public function location() { return $this->hasOne(DriverLocation::class); }
+    public function orders() {
+        return $this->hasMany(Order::class, 'driver_id');
+    }
 }

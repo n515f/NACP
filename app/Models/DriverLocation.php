@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DriverLocation extends Model
 {
-    use HasFactory;
-
     protected $fillable = ['driver_id', 'lat', 'lng'];
 
-    public function driver() { return $this->belongsTo(Driver::class); }
+    public function driver() {
+        return $this->belongsTo(Driver::class, 'driver_id');
+    }
 }

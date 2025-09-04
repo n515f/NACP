@@ -14,10 +14,32 @@
   <!-- AdminLTE -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
 
+  <!-- ملف التنسيق الخاص -->
+  <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+
   <style>
     body {
       font-family: 'Tajawal', sans-serif;
       text-align: right;
+    }
+    .sidebar .nav-link i {
+      margin-left: 10px;
+    }
+    .sidebar .nav-link.active i {
+      color: white;
+    }
+    .sidebar .nav-link i,
+    .sidebar .nav-link span {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .sidebar {
+      background-color: #f2f2f2 !important;
+      color: #333;
+    }
+    .nav-link.active {
+      background-color: #5C0CCF !important;
+      color: white !important;
     }
   </style>
 </head>
@@ -26,51 +48,41 @@
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
   </nav>
-  <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Sidebar -->
+  <aside class="main-sidebar sidebar-light elevation-4">
     <a href="#" class="brand-link text-center">
       <span class="brand-text font-weight-light">ناولني | الإدارة</span>
     </a>
 
-    <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+        <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
           <li class="nav-item">
-            <a href="/admin" class="nav-link active">
-              <i class="nav-icon fas fa-home"></i>
-              <p>الرئيسية</p>
+            <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+              <i class="fas fa-home"></i>
+              <span>الرئيسية</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-box"></i>
-              <p>المنتجات</p>
+            <a href="{{ route('categories.index') }}" class="nav-link {{ request()->is('admin/categories*') ? 'active' : '' }}">
+              <i class="fas fa-tags"></i>
+              <span>التصنيفات</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-shopping-cart"></i>
-              <p>الطلبات</p>
-            </a>
-          </li>
+          <!-- يمكنك إضافة عناصر إضافية هنا -->
         </ul>
       </nav>
     </div>
-    <!-- /.sidebar -->
   </aside>
 
-  <!-- Content Wrapper -->
+  <!-- Main Content -->
   <div class="content-wrapper p-4">
     @yield('content')
   </div>

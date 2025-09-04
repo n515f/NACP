@@ -9,5 +9,5 @@ class DeliveryZone extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'lat', 'lng', 'radius_km'];
+    protected $fillable = ['name', 'delivery_fee', 'coordinates'];
 }

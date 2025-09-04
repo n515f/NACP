@@ -1,22 +1,18 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use HasFactory;
+    protected $fillable = ['vendor_category_id', 'name', 'slug', 'description', 'price', 'sale_price', 'stock', 'unit', 'image_main', 'images_count', 'is_active', 'image', 'available', 'vendor_id', 'category_id'];
 
-    protected $fillable = ['vendor_id', 'name', 'description', 'price', 'image', 'available'];
-
-    public function vendor()
-    {
-        return $this->belongsTo(Vendor::class);
+    public function category() {
+        return $this->belongsTo(Categorie::class, 'category_id');
     }
 
-    public function favorites()
-    {
-        return $this->hasMany(Favorite::class);
+    public function images() {
+        return $this->hasMany(ProductImage::class, 'product_id');
     }
 }
