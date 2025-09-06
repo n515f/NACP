@@ -39,7 +39,7 @@ class User extends Authenticatable
 
     public function addresses()
     {
-        return $this->hasMany(Address::class);
+        return $this->hasMany(Addresse::class);
     }
 
     public function orders()
@@ -76,4 +76,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(CustomRequest::class);
     }
+public function getProfileImageUrlAttribute()
+{
+    return asset('images/users/' . ($this->profile_image ?: 'default.png'));
+}
+
+
+
 }

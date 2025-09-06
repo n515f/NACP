@@ -5,29 +5,50 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DriverController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\UserController; // ✅ أضف هذا السطر
 
-// ============================
-// ✅ صفحة تسجيل الدخول (إن وجدت)
-// ============================
-// Route::get('admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
-// Route::post('admin/login', [AdminLoginController::class, 'login']);
 
-// ============================
-// ✅ لوحة التحكم - تتطلب تسجيل الدخول كمشرف
-// ============================
-Route::prefix('admin')->middleware(['web'])->group(function () {
+// شاشة البداية
+Route::get('/', function () {
+    return view('auth.splash');
+});
 
-    // الصفحة الرئيسية للوحة التحكم
+/* صفحة تسجيل الدخول (ستبنيها بعد قليل)
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+*/
+Route::prefix('admin')->group(function () {
+
+    // لوحة التحكم
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-    // إدارة المستخدمين (العملاء)
+    // ===============================
+    // ✅ العملاء (CRUD الكامل)
+    // ===============================
     Route::get('customers', [CustomerController::class, 'index'])->name('admin.customers.index');
+    Route::get('customers/create', [CustomerController::class, 'create'])->name('admin.customers.create');
+    Route::post('customers', [CustomerController::class, 'store'])->name('admin.customers.store');
+    Route::get('customers/{id}', [CustomerController::class, 'show'])->name('admin.customers.show');
+    Route::get('customers/{id}/edit', [CustomerController::class, 'edit'])->name('admin.customers.edit');
+    Route::put('customers/{id}', [CustomerController::class, 'update'])->name('admin.customers.update');
+    Route::delete('customers/{id}', [CustomerController::class, 'destroy'])->name('admin.customers.destroy');
 
-    // إدارة السائقين
+    // ✅ السائقين
     Route::get('drivers', [DriverController::class, 'index'])->name('admin.drivers.index');
 
-    // إدارة الطلبات
+    // ✅ الطلبات
     Route::get('orders', [OrderController::class, 'index'])->name('admin.orders.index');
 
-    // يمكنك إضافة المزيد لاحقًا مثل الإعدادات أو الإحصائيات
+    // ===============================
+    // ✅ المستخدمين (Users CRUD)
+    // ===============================
+    Route::get('users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('users/create', [UserController::class, 'create'])->name('admin.users.create');
+    Route::post('users', [UserController::class, 'store'])->name('admin.users.store');
+    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+    Route::get('users/{user}', [UserController::class, 'show'])->name('admin.users.show');
+    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+
+
 });
